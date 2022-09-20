@@ -6,3 +6,4 @@ document.write(minSize);
 */
 let favoriteFood = 'enchiladas de mole';
 document.write(favoriteFood);
+alert('Hello world');
