@@ -7,7 +7,7 @@ let pokemonList = [
     {name: 'Ditto', height: 0.3, type: 'normal', pokedexNumber: 132},
     {name: 'Dragonite', height: 2.2, type: ['dragon', 'flying'], pokedexNumber: 149},
 ]
-
+/*
 for (let i=0; i<=pokemonList.length; i++) {
     if (pokemonList[i].height >1.0 && pokemonList[i].height <2.0) {
      document.write(pokemonList[i].name + " " + "(" + "height:"+ " " + pokemonList[i].height + "m" + ")" + " - wow that's big!");
@@ -20,3 +20,18 @@ for (let i=0; i<=pokemonList.length; i++) {
       document.write("<br>");
    }
   }
+  */
+
+// forEach refactoring
+  pokemonList.forEach(function(pokemon){
+    if (pokemon.height >1.0 && pokemon.height <2.0) {
+       document.write(pokemon.name + " " + "(" + "height:"+ " " + pokemon.height + "m" + ")" + " - wow that's big!");
+        document.write("<br>");
+     } else if (pokemon.height >=2.0) {
+        document.write(pokemon.name + " " + "(" + "height:"+ " " + pokemon.height + "m" + ")" + " - omg that's REALLY big!")
+        document.write("<br>");
+     } else {
+        document.write(pokemon.name + " " + "(" + "height:"+ " " + pokemon.height + "m" + ")");
+        document.write("<br>");
+     }
+    });
