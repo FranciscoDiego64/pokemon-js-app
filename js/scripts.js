@@ -1,30 +1,23 @@
 //IIFE
 let pokemonRepository = (function (){
 
-  let pokemonList = [
-    {name: 'Bulbasaur', height: 0.7, type: ['grass', 'poison'], pokedexNumber: 1},
-    {name: 'Sandshrew', height: 0.6, type: 'ground', pokedexNumber: 27},
-    {name: 'Nidoqueen', height: 1.3, type: ['poison', 'ground'], pokedexNumber: 31},
-    {name: 'Abra', height: 0.9 , type: 'psychic', pokedexNumber: 63},
-    {name: 'Exeggutor', height: 2, type: ['grass', 'psychic'], pokedexNumber: 103},
-    {name: 'Ditto', height: 0.3, type: 'normal', pokedexNumber: 132},
-    {name: 'Dragonite', height: 2.2, type: ['dragon', 'flying'], pokedexNumber: 149},
-]
+  let pokemonList = []; //empty array, pokemons will be pushed inside here
+  let apiURL = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
   function getAll () {
     return pokemonList;
   }
   
   function add (pokemon) { //(pokemon) = entry, item, pokemonEntry, etc.
-    if (typeof pokemon === 'object' && 'name', 'height' in pokemon) {
+    if (typeof pokemon === 'object' && 
+        'name' in pokemon && 
+        //'height' in pokemon 
+        'detailsUrl' in pokemon
+       ) {
     pokemonList.push(pokemon);
     }else{
-    alert("this is not an object or info is missing")
+    console.log("this is not an object");
    }
-  }
-
-  function showDetails(pokemon) {
-    console.log(pokemon);
   }
 
   function addListItem(pokemon) {
@@ -42,20 +35,57 @@ let pokemonRepository = (function (){
     });
   }
   
+  function loadList() { //This is a promise function
+    return fetch(apiURL).then(function (response) { //(response) is the promise
+      return response.json(); //response will be converted to JSON
+    }).then(function (json) {
+      json.results.forEach(function (item) {
+        let pokemon = {
+          name: item.name,
+          detailsUrl: item.url
+        };
+        add(pokemon);
+      });
+    }).catch(function (e) {
+      console.error(e);
+    })
+  }
+  
+  function loadDetails(item) {
+    let url = item.detailsUrl;
+    return fetch(url).then(function (response) {
+      return response.json();
+    }).then(function (details) {
+      // The following adds the details to the item:
+      item.imageUrl = details.sprites.front_default;
+      item.height = details.height;
+      item.types = details.types;
+    }).catch(function (e) {
+      console.error(e);
+    });
+  }
+  
+   function showDetails(pokemon) {
+    loadDetails(pokemon).then(function() {
+    console.log(pokemon);
+    });
+  }
+  
   return {
     getAll: getAll,
     add: add,
     addListItem: addListItem,
+    loadList: loadList,
+    loadDetails: loadDetails,
     showDetails: showDetails
   }
   
 })()
 
-//console.log(pokemonRepository.getAll());
-pokemonRepository.add({name: "Vulpix", height: 0.6, type: 'fire', pokedexNumber: 37});
-pokemonRepository.add({name: "Jigglypuff", height: 0.5, type: ['normal', 'fairy'], pokedexNumber: 39});
-// console.log(pokemonList[0].name); will be error. Cannot access "pokemonList" because it's inside the IIFE
-
-pokemonRepository.getAll().forEach(function(pokemon){
+pokemonRepository.loadList().then(() => {//this'll pass the following 2 functions as value
+pokemonRepository.getAll().forEach((pokemon) => {
   pokemonRepository.addListItem(pokemon);
+  });
 });
+  
+
