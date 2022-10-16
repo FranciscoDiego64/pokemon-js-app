@@ -102,7 +102,7 @@ let pokemonRepository = (function () {
     imageElementBack.attr("src", item.imageUrlBack);
     let pokedexNumberElement = $("<p>" + "pokedex number: " + item.id + "</p>");
     let heightElement = $("<p>" + "height: " + item.height + '0cm' + "</p>");
-    let weightElement = $("<p>" + "weight: " + item.weight + 'gr'+ "</p>");
+    let weightElement = $("<p>" + "weight: " + item.weight + '00' + 'gr'+ "</p>");
     let typesElement = $("<p>" + "types: " + item.types + "</p>");
     let abilitiesElement = $("<p>" + "abilities: " + item.abilities + "</p>");
 
