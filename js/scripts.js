@@ -80,7 +80,7 @@ let pokemonRepository = (function () {
           item.abilities.push(details.abilities[i].ability.name);
         }
 
-        item.weight = details.weight;
+        item.weight = details.weight/100;
         item.id = details.id;
       })
       .catch(function (e) {
@@ -100,11 +100,11 @@ let pokemonRepository = (function () {
     imageElementFront.attr("src", item.imageUrlFront);
     let imageElementBack = $('<img class="modal-img" style="width:50%">');
     imageElementBack.attr("src", item.imageUrlBack);
-    let pokedexNumberElement = $("<p>" + "pokedex number: " + item.id + "</p>");
-    let heightElement = $("<p>" + "height: " + item.height + '0cm' + "</p>");
-    let weightElement = $("<p>" + "weight: " + item.weight + '00' + 'gr'+ "</p>");
-    let typesElement = $("<p>" + "types: " + item.types + "</p>");
-    let abilitiesElement = $("<p>" + "abilities: " + item.abilities + "</p>");
+    let pokedexNumberElement = $("<p>" + "Pokedex Number: " + item.id + "</p>");
+    let heightElement = $("<p>" + "Height: " + item.height + '0cm' + "</p>");
+    let weightElement = $("<p>" + "Weight: " + item.weight + 'Kg' + "</p>");
+    let typesElement = $("<p class='pokeinfo'>" + "types: " + item.types + "</p>");
+    let abilitiesElement = $("<p class='pokeinfo'>" + "abilities: " + item.abilities + "</p>");
 
     
 
